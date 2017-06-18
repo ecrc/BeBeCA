@@ -23,7 +23,7 @@ void run_parallel_brandes(
 {
 	//ZIYAD_COMMENT: Note that all part related to the serial computation is commented and it can be used for verifying the results only
 
-	component_t comp;
+	sgraph_t comp;
 	prepare_subgraph(graph_path,comp) ;
 
 	//ZIYAD_COMMENT: These two vector to store the results
@@ -42,7 +42,7 @@ void run_parallel_brandes(
 	std::string graph_name = extract_graph_name(graph_path) ;
 	printf("\n@STAT	alg#	GSIZE	GRAPH#	%s	TIME#	%f	SAMPLES#	%d\n", graph_name.c_str(), tm.interval(), adaptive_sample_size) ;
 	
-	int graph_size = comp.subgraph.size() ;
+	int graph_size = comp.size() ;
 	for(int i = 0 ; i<parallel_between_centrality_result.size() ; i++){
 		parallel_between_centrality_result[i] = (graph_size/adaptive_sample_size)*parallel_between_centrality_result[i];
 	}

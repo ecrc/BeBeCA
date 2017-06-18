@@ -9,12 +9,12 @@ using namespace std;
 
 void brandes_iter(
         vector<double>& BC_vec,     // BC of vertices
-        component_t&    comp,       // component could be BCC, MUC, or just a graph
+        sgraph_t&    comp,       // component could be BCC, MUC, or just a graph
         node_id_t       s,          // source of the iteration
         iter_info_t&    iter_info
         )
 {
-    iter_info.init_all(comp.subgraph.size());
+    iter_info.init_all(comp.size());
     BBFS(iter_info, comp, s);
     RBFS(BC_vec, comp, s, iter_info, true, false);
 }
@@ -22,11 +22,11 @@ void brandes_iter(
 
 void BBFS(
         iter_info_t&    iter_info,  // iteration info to be computed
-        component_t&    comp,       // component
+        sgraph_t&    comp,       // component
         node_id_t       s          // source of the iteration
         )
 {
-    subgraph_t& g = comp.subgraph;
+    sgraph_t& g = comp;
     
     vector<vector<node_id_t> >&  P = iter_info.P;
     vector<int>&                 sigma_vec = iter_info.sigma_vec;
@@ -59,7 +59,7 @@ void BBFS(
 
 void RBFS(
         vector<double>& dBC_vec,    // delta BC of vertices
-        component_t&    comp,       // component could be BCC, MUC, or just a graph
+        sgraph_t&    comp,       // component could be BCC, MUC, or just a graph
         node_id_t       s,          // source of the iteration
         iter_info_t&    iter_info,  //
         bool            add,
@@ -71,7 +71,7 @@ void RBFS(
     vector<double>&              delta_vec = iter_info.delta_vec;
     vector<node_id_t>&           S = iter_info.S;
     
-    fill_vec<double>(delta_vec, comp.subgraph.size(), 0);
+    fill_vec<double>(delta_vec, comp.size(), 0);
     
    
 	for(int i = S.size()-1; i >= 0; --i) {
@@ -96,25 +96,24 @@ void RBFS(
 
 void prepare_subgraph(
 		string  graph_path,
-		component_t& comp)
+		sgraph_t& comp)
 {
 	//ZIYAD_COMMENT: These lines to read the graph
 	graph_t graph;
 	graph.read_graph(graph_path);
 
 	//ZIYAD_COMMENT:Fill the component with the given graph
-	comp.comp_type = GRAPH;
-	comp.subgraph.fill_graph(graph);
+	comp.fill_graph(graph);
 }
 
 void parallel_brandes(
-		component_t& comp,
+		sgraph_t& comp,
         vector<double>& BC_vec,
 		int sample_size
         )
 {
 	//ZIYAD_COMMENT: Prepare the vector where the results will be stored and fill the vector with 0.0
-    	BC_vec.resize(comp.subgraph.size());
+    	BC_vec.resize(comp.size());
     	fill(BC_vec.begin(), BC_vec.end(), 0.0);
 
 	/* initialize random seed: */
@@ -124,7 +123,7 @@ void parallel_brandes(
 	vector<node_id_t> chosenVertices ;
 	for(int i = 0 ; i < sample_size ; ){
 		/* generate secret number between 0 and graph size: */
-		int vertex = rand() % comp.subgraph.size() ;
+		int vertex = rand() % comp.size() ;
 		if(std::find(chosenVertices.begin(), chosenVertices.end(), vertex) != chosenVertices.end()) {
 		    continue ;
 		} else {
@@ -139,13 +138,13 @@ void parallel_brandes(
 	brandes_block(&BC_vec, &comp, &chosenVertices, 0) ;
 
 	for(int i = 0 ; i < BC_vec.size() ; i++){
-		BC_vec[i] = comp.subgraph.size()*(BC_vec[i]/sample_size) ;
+		BC_vec[i] = comp.size()*(BC_vec[i]/sample_size) ;
 	}
 }
 
 void brandes_block(
         vector<double>*     dBC_vec,
-        component_t*        comp,
+        sgraph_t*        comp,
         vector<node_id_t>*  source_vec,
 		int threadID
         )

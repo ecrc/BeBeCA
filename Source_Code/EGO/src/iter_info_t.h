@@ -11,6 +11,8 @@
 
 #include <vector>
 #include "types.h"
+#include "utility.h"
+
 using namespace std;
 
 struct iter_info_t {
@@ -24,6 +26,14 @@ struct iter_info_t {
     void init_all(size_t N);
 };
 
+inline void iter_info_t::init_all(size_t N)
+{
+    fill_vec<vector<node_id_t> >(P, N, vector<node_id_t>());
+    fill_vec<int>(sigma_vec, N, 0);
+    fill_vec<int>(dist_vec, N, -1);
+
+    S.clear();
+}
 
 #endif	/* ITER_INFO_T_H */
 

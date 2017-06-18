@@ -23,7 +23,7 @@ void run_parallel_brandes(
 {
 	//ZIYAD_COMMENT: Note that all part related to the serial computation is commented and it can be used for verifying the results only
 
-	component_t comp;
+	sgraph_t comp;
 	prepare_subgraph(graph_path,comp) ;
 
 	//ZIYAD_COMMENT: These two vector to store the results
@@ -40,7 +40,7 @@ void run_parallel_brandes(
 	tm.stop();
 
 	std::string graph_name = extract_graph_name(graph_path) ;
-	printf("\n@STAT	Alg#	KPATH	GRAPH#	%s	TIME#	%f	SAMPLES#	%d\n", graph_name.c_str(), tm.interval(), comp.subgraph.size()) ;	
+	printf("\n@STAT	Alg#	KPATH	GRAPH#	%s	TIME#	%f	SAMPLES#	%d\n", graph_name.c_str(), tm.interval(), comp.size()) ;	
 
 	//ZIYAD_COMMENT:Store results of both serial and parallel implementation for comparisons
 	FILE *parallelBrandesOutput ;
