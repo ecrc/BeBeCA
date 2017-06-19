@@ -79,7 +79,7 @@ Parallel_Brandes:-
 	- How to run? 
 		From the executable directory, the following command is used for execution:-
 			format: mpirun -np <number_of_processes> ./Parallel_Brandes <number_of_threads> <graph_input_path> <scores_output_path>
-			e.g.  : mpirun -np 2 ./Betweenness 4 ca-GrQc.lcc.net ca-GrQc_Scores.txt
+			e.g.  : mpirun -np 2 ./Parallel_Brandes 4 ca-GrQc.lcc.net ca-GrQc_Scores.txt
 -----------------------
 RAND1:-
 	- Notes:

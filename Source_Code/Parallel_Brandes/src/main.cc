@@ -28,8 +28,8 @@ void run_parallel_brandes(
 {
 	//ZIYAD_COMMENT: Note that all part related to the serial computation is commented and it can be used for verifying the results only
 
-	component_t comp;
-	prepare_subgraph(graph_path,comp) ;
+	sgraph_t comp;
+	prepare_sgraph(graph_path,comp) ;
 
 	//ZIYAD_COMMENT: These two vector to store the results
 	//vector<double> serialBetweenCentralityResult ;
@@ -44,7 +44,7 @@ void run_parallel_brandes(
 		if(rank==0){
 			timer tm ;
 			int number_of_vercies = (num_threads*-1) ;
-			printf("Traverse From %d Random Vertices for Graph of Size %d \n",number_of_vercies, comp.subgraph.size()) ;
+			printf("Traverse From %d Random Vertices for Graph of Size %d \n",number_of_vercies, comp.size()) ;
 			tm.start();
 			traverse_serial_randomly(comp,number_of_vercies);
 			tm.stop();
@@ -69,7 +69,7 @@ void run_parallel_brandes(
 		tm.stop();
 
 		std::string graph_name = extract_graph_name(graph_path) ;
-		printf("\n@STAT	Alg#	Brandes	GRAPH#	%s	TIME#	%f	SAMPLES#	%d\n", graph_name.c_str(), tm.interval(), comp.subgraph.size()) ;	
+		printf("\n@STAT	Alg#	Brandes	GRAPH#	%s	TIME#	%f	SAMPLES#	%d\n", graph_name.c_str(), tm.interval(), comp.size()) ;	
 	}
 
 	//ZIYAD_COMMENT:Store results of both serial and parallel implementation for comparisons

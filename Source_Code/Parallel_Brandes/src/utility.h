@@ -10,8 +10,13 @@
 
 #include <sys/time.h>  
 #include <stdio.h> 
-
+#include <algorithm>
+#include <numeric>
+#include <math.h>
+#include <iostream>
 #include "graph_t.h"
+
+using namespace std;
 
 struct timer {
 	timeval i_start_, i_stop_;
@@ -30,7 +35,14 @@ struct timer {
 	}
 };
 
-string extract_graph_name(string path);
+inline string extract_graph_name(string path)
+{
+    string out;
+    int pos = path.rfind("/") + 1;
+    int length = path.length() - pos + 1;
+    out = path.substr(pos, length);
+    return out;
+}
 
 template <typename T>
 void fill_vec(vector<T>& vec, size_t N, T val)
