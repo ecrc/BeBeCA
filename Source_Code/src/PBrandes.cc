@@ -4,42 +4,29 @@
 #include <list>
 #include <algorithm>
 #include <cmath>
-
-
 #include "graph_t.h"
 #include "bc.h"
 #include "utility.h"
-
-//start ZIYAD_CHANGE
 #include "mpi.h"
 #include <ctime>
-//end ZIYAD_CHANGE
+
 using namespace std;
 
-
-/*
- *
- */
 void run_parallel_brandes(
         string  graph_path,
         char  output_path[],
         int     num_threads
         )
 {
-	//ZIYAD_COMMENT: Note that all part related to the serial computation is commented and it can be used for verifying the results only
-
 	sgraph_t comp;
 	prepare_sgraph(graph_path,comp) ;
 
-	//ZIYAD_COMMENT: These two vector to store the results
-	//vector<double> serialBetweenCentralityResult ;
 	vector<double> parallel_between_centrality_result ;
 
 	int rank, number_of_nodes;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD,&number_of_nodes);
 
-	//ZIYAD_COMMENT: to compute between centality in serial of parallel fashion depend on how many nodes involved
 	if(num_threads<0){
 		if(rank==0){
 			timer tm ;
@@ -72,7 +59,6 @@ void run_parallel_brandes(
 		printf("\n@STAT	Alg#	Brandes	GRAPH#	%s	TIME#	%f	SAMPLES#	%d\n", graph_name.c_str(), tm.interval(), comp.size()) ;	
 	}
 
-	//ZIYAD_COMMENT:Store results of both serial and parallel implementation for comparisons
 	if(rank==0){
 		FILE *parallelBrandesOutput ;
 		parallelBrandesOutput = fopen(output_path,"w");
@@ -102,13 +88,10 @@ int main( int argc, char *argv[] )
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-
-    //Start ZIYAD_CHANGE
-	int number_of_threads = atoi(argv[1]) ; //ZIYAD_COMMENT: Take the number of threads that master thread will create
-	string graph_path =  argv[2] ; 			//ZIYAD_COMMENT: Take the graph path
-	char* result_path = argv[3] ;			//ZIYAD_COMMENT: Take the output path
+	int number_of_threads = atoi(argv[1]) ; 
+	string graph_path =  argv[2] ; 			
+	char* result_path = argv[3] ;			
 	run_parallel_brandes(graph_path, result_path, number_of_threads);
-	//End ZIYAD_CHANGE
 
     MPI_Finalize();
     return 0;

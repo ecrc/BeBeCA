@@ -1,5 +1,5 @@
 © 2017 KAUST - InfoCloud group
-Ziyad Al-Ghamdi  <amin.allam@kaust.edu.sa>
+Ziyad Al-Ghamdi  <Ziyad.AlGhamdi@kaust.edu.sa>
 Fuad Jamour <fuad.jamour@kaust.edu.sa>
 
 =============================================

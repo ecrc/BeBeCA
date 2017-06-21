@@ -158,9 +158,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	printf("Betweenness scores are computed\n") ;
-
-	//sort(ranking.begin(), ranking.end()); 											//Sort the results according to the vertices number
-
+	
 	printf("Printing Betweenness scores ..... \n") ;
 	FILE *parallelBrandesOutput ;
 	parallelBrandesOutput = fopen(output_path,"w");

@@ -29,17 +29,6 @@ struct node_t {
     vector<node_id_t>     nbrs_vec;
 };
 
-struct graph_t;
-struct component_t;
-
-/*
- * Simple undirected unweighted graph data structure
- * no checks whatsoever
- * should call init_size(..) first then insert_edge(..) to populate
- * 
- * IMP: nodes have indexes from 0 to n-1
- * IMP: graph is assumed to be connected
- */
 struct graph_t {
     vector<node_t>      nodes_vec;
     set<edge_t >        edge_set;
@@ -96,7 +85,6 @@ inline void graph_t::read_graph(string path)
     for(int i = 0; i < M; ++i) {
         node_id_t src, dst;
         fin >> src >> dst;
-        //TODO could this cause issues?
         if(src < N && dst < N) {
             insert_edge(src, dst);
         }
@@ -104,10 +92,7 @@ inline void graph_t::read_graph(string path)
     fin.close();
 }
 
-/*
- * all functions here assume the given node ids are proper ones from 0 to n-1
- * so, the caller must use 
- */
+
 struct sgraph_t {
     vector<vector<node_id_t> >  nodes_vec;
     
