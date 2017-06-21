@@ -9,7 +9,7 @@ then
 	echo "Missing Arguments !"
 	echo ""
 else
-	outputPath=Evaluation_Results/$3
+	outputPath=$3
 	exactGraphSize=$(wc -l $exactGraph | awk '{print $1}')
 	approxGraphSize=$(wc -l $approxGraph | awk '{print $1}')
 	if [ "$exactGraphSize" = "$approxGraphSize" ]
@@ -20,9 +20,5 @@ else
 		echo ""
 	fi
 fi
-
-
-
-
 
 
