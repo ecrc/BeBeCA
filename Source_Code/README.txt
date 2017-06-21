@@ -4,7 +4,7 @@ Fuad Jamour <fuad.jamour@kaust.edu.sa>
 
 =============================================
 
-BeBeCa (The source code)
+BeBeCA (The source code)
 
 =============================================
 
